@@ -1,0 +1,275 @@
+CWED USER GUIDE
+
+I. ABOUT
+--------
+
+CWED (C++ Web EDitor) is a simple and minimalist web-based C/C++ IDE for students.
+It can be used as a compact and fast-performing online alternative to 
+heavyweight professional-oriented desktop-based IDEs for completing programming
+tasks in a classroom. Using it students can easily edit, compile and test their 
+C/C++ programs and code snippets right over the Web.
+    
+II. REQUIREMENTS
+----------------
+
+CWED is a server-side application written in PHP. You access it through your Web browser
+so you need a PHP-enabled Web server running on Linux to install the application's files 
+into. The PHP programming language must be 5.5.0 or newer with shell_exec() and proc_open() 
+allowed and PTY support enabled. You also need gcc/g++, gdb and make installed on your server.
+Make sure that user under which the application's script is running on server has been 
+granted r+w+x permissions for the application's data directory (/srv/cwed.d). To use the 
+built-in terminal functionality the application also must have permissions to spawn a shell 
+and run shell commands on server.
+
+III. INSTALLATION
+-----------------
+
+1. Download and untar the distribution's TAR file. Then change to the just 
+   untarred directory which is named CWED. Make sure it contains INDEX.PHP 
+   file. Let's refer to this directory as <PROJECT_DIR>.
+
+2. From within the <PROJECT_DIR> run
+            
+            $ setcwmod.sh
+            
+    to set initial permissions for the project's files
+
+    and then
+            
+            $ sudo ./install.sh
+
+    to create the application's data directory (/srv/cwed.d) on server. The application's
+    data directory stores all service directories and files used by the application in its work. 
+    Let's refer to this data directory as <DATA_DIR>. <DATA_DIR> is organized the following way:
+
+    config subdir                           Serves as home for cwed.conf, the application's config file.
+                                            The config file requires the READ permission.
+
+    users subdir                            Serves as home for the following files and subdirectories 
+                                                1) logindb.dat, a text-based login storage file used by the login form. 
+                                                    Requires r+w permissions.
+                                                2) users subdir where users' personal
+                                                    directories are stored, with
+                                                    directory's name matching user name
+                                                    (e.g. personal directory for user foo is named foo,
+                                                    and personal directory for user bar is bar). Requires
+                                                    r+w+x permissions.
+
+    temp subdir                             Stores temp and log files automatically created by the application during 
+                                            its work. These file are to have r+w permissions.
+    
+3. Copy <PROJECT_DIR>  to your  web server's document root,	
+    which may be, for example, /var/www/html or /opt/lampp/htdocs.
+    
+4. Point your browser to http://<your_hostname_or_IP>/cwed, e.g. http://localhost/cwed, 
+    or http://127.0.0.1/cwed. Apache web server will read the .htaccess file to call the index.php 
+    script. This script's task is to  redirect you to the page with the login form, i.e. 
+    src/app/forms/cwlogin.frm.php. Using the login form you create your account (sign-up) and then log in to this
+    account. On logging in you get redirected to the application's main form in
+    the /src/app/forms/cwide.frm.php. The main form provides the IDE where you edit and test
+    your programs.To close the main form and log out use the FILE-LOGOUT menu item. 
+    It is STRONGLY RECOMMENDED not to close the form by clicking the browser tab's close button!!!
+
+    (If your Web server fails to read from .htaccess and invoke the index.php file, then
+     you can explicitly specify the index.php  in the URL your browser points to, e.g.
+     http://<your_hostname_or_IP>/cwed/index.php instead of simply //<your_hostname_or_IP>/cwed.
+
+5. The <PROJECT_DIR> also has file uninstall.sh which is used to delete <DATA_DIR> from server.     
+
+IV. USAGE
+---------
+
+The IDE provides a multi-user environment. First a user has to get registered
+(sign up) with the application specifying his login and password. After that he
+can log in using the credentials specified at the step of registration. Each 
+login (account) is given his personal directory on server (aka login directory) for 
+storing all his source and binary files.
+
+To create your account you use the login form which is shown automatically when you
+start the application. Fill in the LOGIN and PASSWORD fields on the form and press the SIGN-UP
+submit button. If you already have an account and want to log in just type your credentials in 
+the LOGIN and PASSWORD fields and press the LOGIN submit button. Now you get redirected to the form
+with the IDE itself.
+
+The IDE form allows you to create, edit, compile and test your source files.
+All your files are stored in your login directory on server. Each opened file
+is stored in its own buffer. Currently active buffer is called the active buffer
+and its file is called the current source file. When the IDE starts it has no
+current file so, first of all, you have to create it using main menu as described
+below in the text.
+
+The IDE form consists of the following elements.
+
+-MAIN MENU                   -  the IDE's main menu at the top through which you access the IDE's functionality
+
+-CURRENT LOGIN field         -  displays the current login
+-LOGIN DIRECTORY field       -  displays name of the current login's personal directory
+-CURRENT BUFFER field        -  displays basename of the current source file
+-BUFFER STATUS field         -  displays whether or not the current buffer has unsaved changes
+
+-EDITOR pane                 -  where you edit your source code
+
+-TABBED PANE at the bottom 
+with the following tabs
+
+                    -OUTPUT: 	    displays the compiler output and the IDE messages
+                    -INPUT:  	    stores input data for your program 
+                    -LOGINDIR       displays the contents of the login directory
+                    -BUFFERS:       displays the list of currently opened buffers
+                    -FUNCTIONS:     displays list of function declarations and calls found in the current file
+                    -ASM:           displays the results of compiling a source file to assembly
+                    -SCRIBBLE:	    allows you to scratch various notes concerning your program
+		    -SNIPPETS:	    allows you to insert predefined code snippets to the editor
+                    -ABOUT:         displays information about the application's version
+                    -HELP:          displays the application's help
+
+You access the IDE's functions through its main menu which has the following items: 
+
+FILE->NEW           Creates a new file and loads it in a new buffer. You will be prompted to specify basename of the file,
+                    e.g. myfile.cpp. If the file belongs to a project, specify the project's name too, e.g.
+                    myproject/myfile.cpp.
+                    
+FILE->OPEN          Opens an existing file in a new buffer. You will be prompted to specify basename of the file,
+                    e.g. myfile.cpp. If the file belongs to a project, specify the project's name too, e.g.
+                    myproject/myfile.cpp.
+                    
+FILE->SAVE          Saves current file.
+
+FILE->DELETE        Deletes an existing file. The file must not be currently loaded to one of the open buffers. 
+		    You will be prompted to specify basename of the file, e.g. myfile.cpp. If the file belongs to 
+		    a project, specify the project's name too, e.g. myproject/myfile.cpp.
+		    
+FILE->LIST          Updates the contents of the LoginDir tab, which displays the contents of the login directory.
+
+FILE->TAR           Adds files to a TAR archive named cwed.tar. You will be prompted to specify basenames of the files
+                    separated by space, e.g. file.cpp<space>file2.cpp<space>file3.cpp. If the files belong to
+                    a project you have to specify the project's name too, e.g., myproject/file1.cpp<space>myproject/file2.cpp.
+                    
+FILE->MAIL          Sends a file as an attachment to an email account. You will be prompted to specify name of the file
+                    and the email account separated by comma, e.g "myfile.cpp, mymail@myserver.net". If the file belongs
+                    to a project you have to specify the project's name too, "myproject/myfile.cpp, mymail@myserver.net".
+                    
+FILE->DOWNLOAD      Downloads a file. You will be prompted to specify basename of the file, eg myfile.cpp. If the file
+                    belongs to a project, specify the project's name too, e.g. myproject/myfile.cpp.
+                    
+FILE->LOGOUT        Logs out from the current session and redirects to the login form.
+
+BUFFER->SWITCH      Switches to a buffer by its number. You will be prompted to specify the buffer's number which can be 
+		    looked up in the Buffers tab. The operation fails if there are less than 2 buffers currently opened.
+		    
+BUFFER->NEXT        Switches to the next buffer. The operation fails if there are less than 2 buffers currently opened.
+
+EDIT->GOTO          Invokes standard Go To Line dialog.
+
+EDIT->SEARCH        Invokes standard Search dialog.
+
+EDIT->REPLACE       Invokes standard Replace dialog.
+
+EDIT->FORMAT        Autoformats the editor's contents
+
+EDIT->FUNCTIONS     Updates the contents of the Functions tab. The tab contains the list of all function declarations and
+                    calls found in the editor. Just select or double-click a declaration or a call and the editor's cursor 
+                    will be automatically set to the line with this declaration/call.
+
+SESSION->SET MAKE   Sets the current makefile, which can be then executed by the TEST->MAKE menu item.
+                    You will be prompted to specify the basename of the makefile. The makefile must have .mkf extension.
+                    
+SESSION->READ MAKE  Displays in the OUTPUT tab the current makefile set by the TEST->SET MAKE menu item.
+
+SESSION->SET EXEC   Sets the current executable file, which can be then executed by the TEST->RUN, TEST->TERMINAL and
+                    DEBUG->BACKTRACE menu items. You will be prompted to specify basename of the executable, eg
+                    myexec.out. If the file belongs to a project, specify the project's name too, eg myproject/myexec.out
+
+SESSION->READ EXEC  Displays in the OUTPUT tab the current executable file set by TEST->SET EXEC menu item.
+
+TEST->LINT          Checks the syntax of the current source file and outputs the results to the OUTPUT tab.
+
+TEST->COMPILE       Compiles the current source file to machine code. The generated executable is named XXX.out
+                    where XXX is the basename of the current source file. E.g. file test.cpp is compiled to
+                    test.cpp.out. The compilation results are displayed in the Output tab.
+                    
+TEST->ASM           Compiles the current source file to assembly. The generated assembly file is named XXX.s
+                    where XXX is the basename of the current source file. The generated assembly is then displayed in 
+                    the ASM tab.
+                    
+TEST->MAKE          Executes the current makefile. The makefile must be specified in advance by SESSION->SET MAKE.
+
+TEST->RUN           Runs the current executable file in a non-interactive mode. The program reads its input data from the
+                    INPUT tab and writes its results to the OUTPUT tab. The current executable file must be specified in advance
+                    by SESSION->SET EXEC.
+                    
+TEST->TERMINAL      Runs the current executable file in an interactive mode in the built-in terminal emulator. The current
+                    executable file must be specified in advance by SESSION->SET EXEC.
+
+DEBUG->BACKTRACE    Debugs the current executable file with the Backtrace command and writes the output to the OUTPUT tab.
+                    The executable file must be specified in advance by SESSION->SET EXEC.
+
+PROJECT->NEW        Creates a new project. You will be prompted to specify name of the project. A project is represented by 
+                    the same-named directory and its makefile with the .mkf extension. For example, when you create a project 
+                    named CALCULATOR then directory named CALCULATOR and makefile named CALCULATOR.mkf are created automatically 
+                    for the project in the login's personal directory. Note that the project's makefile is created at the same 
+                    level as the project's directory, not inside the latter. And if you want to add a file to this project or
+                    open a file from the project then in the FILE-NEW and FILE-OPEN dialogs you have to specifiy the project's 
+                    name too, eg CALCULATOR/calculator.cpp. Since the project's directory and its makefile are on the
+                    same level, then in the makefile you refer to the project's files as <project_dir>/<file>, eg.
+                    CALCULATOR/calculator.c.
+                    
+PROJECT->DELETE     Drops directory dedicated to an existing project. You will be prompted to specify name of the project.
+
+The text editor provides the following useful key shortcuts
+	
+	Ctrl-F:		start search in text
+	Ctrl-G:		find next
+	Shift-Ctrl-G:	find previous
+	Shift-Ctrl-F:	replace in text
+	Shift-Ctrl-R:	replace all 
+	Ctrl-K:		delete current line
+	Ctrl-Space:	basic autocompletion
+
+Also you can go the SNIPPETS tab of the tabbed panel at the bottom and select
+a snippet from the list. It will then be added to the editor.
+	
+V. CONFIGURATION
+----------------
+
+You may want to edit the /srv/cwed.d/config/cwed.conf file to 
+change some configuration options of the application to suit your needs. 
+E.g., to setup mailing possibilities of the IDE you use the following options from the
+[Mailer] section:
+                         
+   host:           SMTP server for sending emails to users
+   username:       SMTP user, e.g. joe@example.com
+   password:       SMTP password
+   port:           TCP port to connect to
+   mailer:         name of the sender
+   
+The [Debug] section has the following setup options:
+
+   gcc_path:       path to the GCC/G++ compiler
+   gdb_path:       path to the GDB debugger
+   make_path:      path to the Make utility 
+   use_terminal:   stores yes or no depending on whether or not the built-in terminal is to be enabled               
+
+VI. FAQ
+-------
+
+Q: What to do if the the load time of the application's pages is very slow?
+A: Compress the application's JS and CSS files using some online JS/CSS minimizer.
+   Also you can disable the debug mode toggled on/off by the DEBUG constant.
+
+VII. HELP
+---------
+
+The application's help can be accessed through the HELP tab.
+
+VIII. CONTACT & SUPPORT
+-----------------------
+
+	Visit 
+	
+		http://ccwed.ourproject.org
+    		https://github.com/spartakraz/cwed
+		
+	Mail-to	
+	
+        	cxdevteam2000@gmail.com

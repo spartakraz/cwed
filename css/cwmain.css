@@ -1,0 +1,246 @@
+/* ----------------------------------
+ * THE MAIN FORM'S COMMON ELEMENTS
+ * ----------------------------------
+ */
+html {
+  background-color: silver;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  padding: 0;
+  background-color: silver;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100%;
+  width: 80%;
+}
+label {
+  display: inline-block;
+  color: black;
+}
+table {
+  width: 100%;
+}
+th, td {
+  border: 2px solid black;
+}
+.divtop {
+  position: relative;
+  background-color: silver;
+  margin-right: auto;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: auto;
+  border: 2px solid black;
+  color: black;
+  font-family: serif;
+  font-weight: 400;
+}
+.divfile {
+  background-color: silver;
+  height: 100%;
+  margin-top: 5px;
+  color: black
+}
+.diveditor {
+  position: relative;
+  background-color: silver;
+  margin-right: auto;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: auto;
+}
+.logo {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 2em;
+  font-style: italic;
+}
+.copyright {
+  color: blue;
+}
+.gccoptions {
+  margin-left: 1px;
+  background: silver;
+  color: black;
+  width: 50%;
+  border: 1px solid grey;
+  position: relative;
+}
+.filexplorer {
+  border: 1px solid grey;
+  width: 80%;
+  height: 250px;
+  color: black;
+  background: lightgrey;
+}
+.output {
+  height: 92%;
+  width: 100%;
+  word-break: break-all;
+  border: 1px solid grey;
+  position: relative;
+  color: black;
+  background: lightgrey;
+}
+.scribble {
+  height: 92%;
+  width: 100%;
+  word-break: break-all;
+  border: 1px solid grey;
+  position: relative;
+  color: black;
+  background: lightgrey;
+  font-style: italic;
+}
+.functionstab {
+  height: 92%;
+  width: 100%;
+  word-break: break-all;
+  border: 1px solid grey;
+  position: relative;
+  color: black;
+  background: lightgrey;
+}
+.filename {
+  width: 80%;
+  margin-left: 1px;
+  border: 1px solid grey;
+  position: relative;
+  background: lightgrey;
+}
+.buffers {
+  width: 80%;
+  min-height: 100px;
+  margin-left: 1px;
+  border: 1px solid grey;
+  position: relative;
+  background: lightgrey;
+  color: black;
+}
+.input {
+  height: 92%;
+  width: 100%;
+  background: lightgrey;
+  color: black;
+  border: 1px solid grey;
+  position: relative;
+  font-style: italic;
+}
+.snippetbox {
+  border: 1px solid grey;
+  width: 120px;
+  color: black;
+  background: lightgrey;
+}
+.snippetbtn {
+  width: 90px;
+  background-color: silver;
+  color: black;
+  padding: 2px;
+  border: 1px solid grey;
+  cursor: pointer;
+  font-size: 12px;
+}
+/* ------------------------------------
+ * THE MAIN FORM'S TABBED PAGE CONTROL
+ * ------------------------------------
+ */
+/* the physical panel on the which the tabbed page control is based */
+.divtabpanel {
+  clear: both;
+  margin-left: 1px;
+  margin-top: 10px;
+  margin-right: auto;
+  height: 25vh;
+  position: relative;
+  background-color: silver
+}
+/* content area of a single page on the tabbed page control where we place text area and input elements */
+.divtabcontents {
+  background-color: silver;
+  border: 2px solid black;
+  bottom: 0;
+  left: 0;
+  padding: 1%;
+  position: absolute;
+  right: 0;
+  top: 15%;
+  color: black;
+}
+/* the physical panel on which the tab of a single page on the tabbed page control is based */
+.divtab {
+  float: left;
+}
+.divtab [type=radio] {
+  display: none
+}
+/* label element placed on the page's tab to indicate the page's designation, e.g. Output, Input, Buffers etc. */
+.divtab label {
+  background: silver;
+  border: 2px solid black;
+  margin-left: 3px;
+  padding-bottom: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  position: relative;
+  color: black
+}
+/* when a tag becomes selected */
+[type=radio]:checked~label {
+  border: 2px solid #000;
+  font-weight: 700;
+  z-index: 2
+}
+[type=radio]:checked~label~.divtabcontents {
+  z-index: 1
+}
+/* ------------------------------------
+ * THE MAIN FORM'S MAIN MENU
+ * ------------------------------------
+ */
+/* these are menu buttons, such as File, Buffers, Edit etc */
+.dropbtn {
+  width: 90px;
+  background-color: silver;
+  color: black;
+  padding: 2px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase
+}
+/* this is the physical panel on which the menu buttons are placed */
+.dropdown {
+  position: relative;
+  display: block;
+}
+/* these are drop-down boxes for storing menu items, such as, e.g. New, Save, Run etc */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 120px;
+  z-index: 10
+}
+/* this is a separate menu item located inside a drop-down box, eg New, Save etc */
+.dropdown-content a {
+  color: black;
+  background: #B6B6B4;
+  padding: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  text-align: left;
+  text-transform: uppercase
+}
+.dropdown-content a:hover {
+  background-color: lightgrey;
+  color: black;
+  font-style: italic;
+}
+.show {
+  display: block;
+}

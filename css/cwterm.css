@@ -1,0 +1,40 @@
+/* ---------------------------------
+ * DEFAULT THEME FOR THE TERMINAL
+ * ---------------------------------
+ */
+html {
+  background-color: silver
+}
+body {
+  background-color: lightgrey;
+  width: 80%;
+  color: black;
+  margin: auto
+}
+/* the terminal's title bar */
+.divtitle {
+  background: silver;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 2em;
+  font-style: italic;
+}
+/* the input field */
+.stdin {
+  background-color: lightgrey;
+  color: black;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  margin: 5;
+  border: 1px black;
+  font-style:italic;
+}
+/* label where the output from the tested program is shown */
+.stdout {
+}
+
+
+
+
+

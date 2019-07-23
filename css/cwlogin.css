@@ -1,0 +1,64 @@
+/* ---------------------------------
+ * DEFAULT THEME FOR THE LOGIN FORM
+ * ---------------------------------
+ */
+html {
+  background-color: silver;
+  padding: 0;
+  height: 100%;
+  margin: 0
+}
+body {
+  width: 80%;
+  min-height: 100%;
+  background-color: silver;
+  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* all GUI elements are located within this Div element */
+.divlogin {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  background-color: silver;
+  border: 2px solid black;
+  vertical-align: central
+}
+/* labels for input fields */
+.loginlabels {
+  color: black
+}
+/* the form's error message */
+.loginmsgs {
+  color: black
+}
+/* the app's logo */
+.loginlogos {
+  background: silver;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 2em;
+  font-style: italic;
+}
+/* the form's input fields */
+.logintexts {
+  width: 30%;
+  border: 1px solid grey;
+  background: lightgrey;
+  font-style: italic;
+}
+/* theme for submit buttons */
+.loginsubmits {
+  width: 20%;
+  margin-top: 2px;
+  margin-left: 5px;
+  height: 25px;
+  position: relative;
+  text-align: center;
+  color: white;
+  background: black;
+  border: 1px solid;
+  border-radius: 3px;
+  cursor: pointer
+}
